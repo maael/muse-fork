@@ -191,18 +191,23 @@ export default class {
         to = currentSong.length + currentSong.offset;
       }
 
+      console.error('[player]', '[play]', '[getStream]');
       const stream = await this.getStream(currentSong, {seek: positionSeconds, to});
+      console.error('[player]', '[play]', '[createAudioPlayer]');
       this.audioPlayer = createAudioPlayer({
         behaviors: {
           // Needs to be somewhat high for livestreams
           maxMissedFrames: 50,
         },
       });
+      console.error('[player]', '[play]', '[subscribe]');
       this.voiceConnection.subscribe(this.audioPlayer);
+      console.error('[player]', '[play]', '[createAudioResource]');
       const resource = createAudioResource(stream, {
         inputType: StreamType.WebmOpus,
       });
 
+      console.error('[player]', '[play]', '[play]');
       this.audioPlayer.play(resource);
 
       this.attachListeners();
@@ -211,8 +216,10 @@ export default class {
       this.nowPlaying = currentSong;
 
       if (currentSong.url === this.lastSongURL) {
+        console.error('[player]', '[play]', '[startTrackingPosition]');
         this.startTrackingPosition();
       } else {
+        console.error('[player]', '[play]', '[reset]');
         // Reset position counter
         this.startTrackingPosition(0);
         this.lastSongURL = currentSong.url;
@@ -404,6 +411,7 @@ export default class {
 
   private async getStream(song: QueuedSong, options: {seek?: number; to?: number} = {}): Promise<Readable> {
     if (song.source === MediaSource.HLS) {
+      console.error('[player]', '[getStream]', '[HLS]');
       return this.createReadStream(song.url);
     }
 
@@ -414,6 +422,7 @@ export default class {
     let format: ytdl.videoFormat | undefined;
 
     try {
+      console.error('[player]', '[getStream]', '[fileCache]');
       ffmpegInput = await this.fileCache.getPathFor(this.getHashForCache(song.url));
 
       if (options.seek) {
@@ -425,6 +434,7 @@ export default class {
       }
     } catch {
       // Not yet cached, must download
+      console.error('[player]', '[getStream]', '[ytdl]');
       const info = await ytdl.getInfo(song.url);
 
       const {formats} = info;
@@ -485,6 +495,7 @@ export default class {
       }
     }
 
+    console.error('[player]', '[getStream]', '[createReadStream]');
     return this.createReadStream(ffmpegInput, {ffmpegInputOptions, cache: shouldCacheVideo});
   }
 
