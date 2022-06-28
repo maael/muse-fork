@@ -11,6 +11,25 @@ import {startBot} from '../index.js';
 import logBanner from '../utils/log-banner.js';
 import {createDatabasePath} from '../utils/create-database-url.js';
 import {DATA_DIR} from '../services/config.js';
+import http from 'http';
+
+const startServer = async () => {
+  const hostname = '127.0.0.1';
+  const port = 80;
+
+  const server = http.createServer((_req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Hello World');
+  });
+
+  return new Promise<void>(resolve => {
+    server.listen(port, hostname, () => {
+      console.log(`Server running at http://${hostname}:${port}/`);
+      resolve();
+    });
+  });
+};
 
 const client = new Prisma.PrismaClient();
 
@@ -79,5 +98,6 @@ const hasDatabaseBeenMigratedToPrisma = async () => {
 
   spinner.succeed('Database migrations applied.');
 
+  await startServer();
   await startBot();
 })();
