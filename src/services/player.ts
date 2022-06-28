@@ -434,8 +434,9 @@ export default class {
       }
     } catch {
       // Not yet cached, must download
-      console.error('[player]', '[getStream]', '[ytdl]');
+      console.error('[player]', '[getStream]', '[ytdl:start]');
       const info = await ytdl.getInfo(song.url);
+      console.error('[player]', '[getStream]', '[ytdl:end]');
 
       const {formats} = info;
 
