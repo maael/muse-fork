@@ -23,6 +23,7 @@ export default class implements Command {
   }
 
   public async execute(interaction: ChatInputCommandInteraction) {
+    console.info('[cmd]', '[queue]');
     const player = this.playerManager.get(interaction.guild!.id);
 
     const embed = buildQueueEmbed(player, interaction.options.getInteger('page') ?? 1);

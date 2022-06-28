@@ -78,6 +78,7 @@ export default class {
           }
 
           if (command.execute) {
+            console.info('[bot]', '[execute]', command.slashCommand.name);
             await command.execute(interaction);
           }
         } else if (interaction.isButton()) {

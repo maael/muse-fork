@@ -312,6 +312,7 @@ export default class {
   }
 
   getCurrent(): QueuedSong | null {
+    console.info('[player]', '[getCurrent]', this.queuePosition, this.queue);
     if (this.queue[this.queuePosition]) {
       return this.queue[this.queuePosition];
     }
@@ -328,6 +329,7 @@ export default class {
   }
 
   add(song: QueuedSong, {immediate = false} = {}): void {
+    console.info('[player]', '[add]', song);
     if (song.playlist || !immediate) {
       // Add to end of queue
       this.queue.push(song);
