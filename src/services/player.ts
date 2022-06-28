@@ -151,6 +151,7 @@ export default class {
   }
 
   async play(): Promise<void> {
+    console.info('[player]', '[play]');
     if (this.voiceConnection === null) {
       throw new Error('Not connected to a voice channel.');
     }
@@ -217,6 +218,7 @@ export default class {
         this.lastSongURL = currentSong.url;
       }
     } catch (error: unknown) {
+      console.error('[player]', '[play]', '[error]', error);
       await this.forward(1);
 
       if ((error as {statusCode: number}).statusCode === 410 && currentSong) {
@@ -247,6 +249,7 @@ export default class {
   }
 
   async forward(skip: number): Promise<void> {
+    console.info('[player]', '[forward]', skip);
     this.manualForward(skip);
 
     try {
@@ -280,10 +283,12 @@ export default class {
   }
 
   canGoForward(skip: number) {
+    console.info('[player]', '[canGoForward]', skip, (this.queuePosition + skip - 1), this.queue.length);
     return (this.queuePosition + skip - 1) < this.queue.length;
   }
 
   manualForward(skip: number): void {
+    console.info('[player]', '[manualForward]', skip);
     if (this.canGoForward(skip)) {
       this.queuePosition += skip;
       this.positionInSeconds = 0;
@@ -329,7 +334,7 @@ export default class {
   }
 
   add(song: QueuedSong, {immediate = false} = {}): void {
-    console.info('[player]', '[add]', song);
+    console.info('[player]', '[add]', song, immediate);
     if (song.playlist || !immediate) {
       // Add to end of queue
       this.queue.push(song);
@@ -347,6 +352,7 @@ export default class {
   }
 
   clear(): void {
+    console.info('[player]', '[clear]');
     const newQueue = [];
 
     // Don't clear curently playing song
@@ -532,6 +538,7 @@ export default class {
     }
 
     if (newState.status === AudioPlayerStatus.Idle && this.status === STATUS.PLAYING) {
+      console.info('[player]', '[onAudioPlayerIdle]');
       await this.forward(1);
     }
   }
