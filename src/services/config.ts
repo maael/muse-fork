@@ -23,6 +23,8 @@ const CONFIG_MAP = {
   BOT_ACTIVITY: process.env.BOT_ACTIVITY ?? 'music',
 } as const;
 
+console.info('[config]', CONFIG_MAP);
+
 @injectable()
 export default class Config {
   readonly DISCORD_TOKEN!: string;

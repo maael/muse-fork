@@ -3,7 +3,11 @@ services:
     name: muse
     env: docker
     region: frankfurt
-    plan: free
+    plan: standard
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 2
     envVars:
     - key: DISCORD_TOKEN
       sync: false

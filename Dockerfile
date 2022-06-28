@@ -34,5 +34,7 @@ ENV NODE_ENV production
 ENV COMMIT_HASH $COMMIT_HASH
 ENV BUILD_DATE $BUILD_DATE
 
+EXPOSE 8080
+
 CMD ["tini", "--", "yarn", "start"]
 

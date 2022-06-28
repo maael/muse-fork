@@ -14,8 +14,8 @@ import {DATA_DIR} from '../services/config.js';
 import http from 'http';
 
 const startServer = async () => {
-  const hostname = '127.0.0.1';
-  const port = 80;
+  const hostname = 'localhost';
+  const port = 8080;
 
   const server = http.createServer((_req, res) => {
     res.statusCode = 200;
@@ -24,7 +24,7 @@ const startServer = async () => {
   });
 
   return new Promise<void>(resolve => {
-    server.listen(port, hostname, () => {
+    server.listen(port, () => {
       console.log(`Server running at http://${hostname}:${port}/`);
       resolve();
     });
