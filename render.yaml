@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: muse
+    name: muse-bot
     env: docker
     region: frankfurt
     plan: standard
@@ -9,11 +9,11 @@ services:
       mountPath: /data
       sizeGB: 2
     envVars:
-    - key: DISCORD_TOKEN
-      sync: false
-    - key: YOUTUBE_API_KEY
-      sync: false
-    - key: SPOTIFY_CLIENT_ID
-      sync: false
-    - key: SPOTIFY_CLIENT_SECRET
-      sync: false
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: SPOTIFY_CLIENT_ID
+        sync: false
+      - key: SPOTIFY_CLIENT_SECRET
+        sync: false
